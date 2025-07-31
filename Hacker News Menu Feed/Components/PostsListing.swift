@@ -24,7 +24,6 @@ struct PostsListing: View {
           title: "􀌲 \(post.comments ?? 0)    􀾙 \(post.score)",
           link: "https://news.ycombinator.com/item?id=\(post.id)"
         )
-        .padding(.leading)
         .font(.system(size: 10))
         .foregroundColor(.secondary)
       }
