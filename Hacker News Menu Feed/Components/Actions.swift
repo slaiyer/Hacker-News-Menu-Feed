@@ -2,14 +2,14 @@ import Foundation
 import SwiftUI
 
 struct Actions: View {
-    var onRefresh: () -> Void
+    var onReload: () -> Void
     var onQuit: () -> Void
     
     @Binding var showHeadline: Bool
     
     var body: some View {
         HStack {
-            Button(action: onRefresh, label: {
+            Button(action: onReload, label: {
                 Image(systemName: "arrow.clockwise")
             })
             

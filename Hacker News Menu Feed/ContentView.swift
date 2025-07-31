@@ -8,7 +8,7 @@ struct ContentView: App {
     @State private var showHeadline = LocalDataSource.getShowHeadline()
     @State private var truncatedTitle: String = "Loading HN…"
     @State private var posts: [StoryFetchResponse] = []
-    @State private var refreshRate = 600.0
+    @State private var reloadRate = 600.0
     
     var timer = Timer()
     
@@ -18,7 +18,7 @@ struct ContentView: App {
                 posts: $posts,
                 isFetching: $isFetching,
                 showHeadline: $showHeadline,
-                onRefreshTapped: refreshData
+                onReloadTapped: reloadData
             )
             .frame(width: 500.0)
         } label: {
@@ -49,10 +49,10 @@ struct ContentView: App {
     
     func startApp() {
         if posts.count == 0 {
-            refreshData()
+            reloadData()
             Timer
-                .scheduledTimer(withTimeInterval: refreshRate, repeats: true, block: { _ in
-                    refreshData()
+                .scheduledTimer(withTimeInterval: reloadRate, repeats: true, block: { _ in
+                    reloadData()
                 })
         }
     }
@@ -84,7 +84,7 @@ struct ContentView: App {
         return truncatedString + "…"
     }
     
-    func refreshData() {
+    func reloadData() {
         isFetching = true
         
         Task {

@@ -13,18 +13,21 @@ struct PostsListing: View {
                 VStack(alignment: .leading) {
                     if post.url != nil {
                         CustomLink(title: post.title!, link: post.url!)
+                            .foregroundColor(.primary)
                     } else {
                         Text(post.title!)
+                            .foregroundColor(.primary)
                     }
-                
+
                     CustomLink(
                         title: "􀌲 \(post.comments ?? 0)    􀾙 \(post.score)",
                         link: "https://news.ycombinator.com/item?id=\(post.id)"
                     )
                     .padding(.leading)
                     .font(.system(size: 10))
+                    .foregroundColor(.secondary)
                 }
-            
+
                 Divider()
             }
     }

@@ -9,8 +9,8 @@ struct AppMenu: View {
     @Binding var isFetching: Bool
     @Binding var showHeadline: Bool
     
-    var onRefreshTapped: () -> Void
-    
+    var onReloadTapped: () -> Void
+
     func quitAction() {
         NSApplication.shared.terminate(nil)
     }
@@ -18,11 +18,11 @@ struct AppMenu: View {
     var body: some View {
         VStack(alignment: .leading) {
             if isFetching {
-                Text("Refreshing HN feed…")
+                Text("Reloading HN feed…")
             } else {
                 PostsListing(posts: posts)
                 Actions(
-                    onRefresh: onRefreshTapped,
+                    onReload: onReloadTapped,
                     onQuit: quitAction,
                     showHeadline: $showHeadline
                 )

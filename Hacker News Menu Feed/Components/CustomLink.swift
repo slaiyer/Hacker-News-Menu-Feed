@@ -11,7 +11,6 @@ struct CustomLink: View {
         Link(destination: URL(string: link)!, label: {
             Text(title)
         })
-        .foregroundColor(.white)
         .onHover(perform: { hovering in
             if hovering {
                 NSCursor.pointingHand.push()
