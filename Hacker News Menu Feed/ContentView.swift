@@ -6,7 +6,7 @@ struct ContentView: App {
     
     @State private var isFetching = false
     @State private var showHeadline = LocalDataSource.getShowHeadline()
-    @State private var truncatedTitle: String = "Loading HN feed..."
+    @State private var truncatedTitle: String = "Loading HN…"
     @State private var posts: [StoryFetchResponse] = []
     @State private var refreshRate = 600.0
     
