@@ -9,9 +9,8 @@ struct CustomLink: View {
     
     var body: some View {
         Link(destination: URL(string: link)!, label: {
-            Text(title).underline()
+            Text(title)
         })
-        .underline()
         .foregroundColor(.white)
         .onHover(perform: { hovering in
             if hovering {

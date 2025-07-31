@@ -33,8 +33,8 @@ struct Story: Decodable {
     var time: Int
     var title: String
     var type: String
-    var text: String? // Ask story have text
-    var url: String? // Ask story don't have url
+    var text: String?
+    var url: String?
 }
 
 struct Comment: Decodable {

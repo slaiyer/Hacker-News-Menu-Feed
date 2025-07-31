@@ -5,25 +5,30 @@ struct ContentView: App {
     private static let NUMBER_OF_POSTS = 10
     
     @State private var isFetching = false
-    @State private var onlyIcon = LocalDataSource.getShowOnlyIcon()
-    @State private var truncatedTitle: String = "Loading Hacker news feed..."
+    @State private var showHeadline = LocalDataSource.getShowHeadline()
+    @State private var truncatedTitle: String = "Loading HN feed..."
     @State private var posts: [StoryFetchResponse] = []
-    @State private var refreshRate = 60.0
+    @State private var refreshRate = 600.0
     
     var timer = Timer()
     
     var body: some Scene {
         MenuBarExtra {
-            AppMenu(posts: $posts, isFetching: $isFetching, showOnlyIcon: $onlyIcon, onRefreshTapped: refreshData)
-                .frame(width: 495.0)
+            AppMenu(
+                posts: $posts,
+                isFetching: $isFetching,
+                showHeadline: $showHeadline,
+                onRefreshTapped: refreshData
+            )
+            .frame(width: 500.0)
         } label: {
-            if onlyIcon {
-                Image(.icon).frame(width: 5, height: 5)
+            if showHeadline {
+                Text(truncatedTitle)
                     .onAppear() {
                         startApp()
                     }
             } else {
-                Text(truncatedTitle)
+                Image(.icon).frame(width: 5, height: 5)
                     .onAppear() {
                         startApp()
                     }
@@ -37,23 +42,27 @@ struct ContentView: App {
             
             adjustTitleForMenuBar()
         })
-        .onChange(of: onlyIcon, perform: { _ in
-            LocalDataSource.saveShowOnlyIcon(value: onlyIcon)
+        .onChange(of: showHeadline, perform: { _ in
+            LocalDataSource.saveShowHeadline(value: showHeadline)
         })
     }
     
     func startApp() {
         if posts.count == 0 {
             refreshData()
-            Timer.scheduledTimer(withTimeInterval: refreshRate, repeats: true, block: { _ in
-                refreshData()
-            })
+            Timer
+                .scheduledTimer(withTimeInterval: refreshRate, repeats: true, block: { _ in
+                    refreshData()
+                })
         }
     }
     
     func adjustTitleForMenuBar() {
-        let maxMenuBarWidth: CGFloat = 250 // Estimate or calculate this value based on your needs
-        truncatedTitle = truncateStringToFit(truncatedTitle, maxWidth: maxMenuBarWidth)
+        let maxMenuBarWidth: CGFloat = 250
+        truncatedTitle = truncateStringToFit(
+            truncatedTitle,
+            maxWidth: maxMenuBarWidth
+        )
     }
     
     func truncateStringToFit(_ string: String, maxWidth: CGFloat) -> String {
@@ -64,8 +73,7 @@ struct ContentView: App {
         if label.frame.width <= maxWidth {
             return string
         }
-            
-            // Truncate the string
+
         var truncatedString = string
         while label.frame.width > maxWidth && truncatedString.count > 0 {
             truncatedString.removeLast()
@@ -78,30 +86,34 @@ struct ContentView: App {
     
     func refreshData() {
         isFetching = true
-        posts = []
         
         Task {
             do {
                 try await fetchFeed()
-                isFetching = false
             } catch {
                 print("Error: \(error)")
             }
+            
+            isFetching = false
         }
     }
     
     func fetchFeed() async throws {
         let postsIds = try await fetchTopPostsIDs()
-        posts = []
+        var newPosts: [StoryFetchResponse] = []
         
         for postId in postsIds {
             let post = try await fetchPostById(postId: postId)
-            posts.append(post)
+            newPosts.append(post)
         }
+        
+        posts = newPosts
     }
     
     func fetchTopPostsIDs() async throws -> [Int] {
-        let url = URL(string: "https://hacker-news.firebaseio.com/v0/topstories.json")!
+        let url = URL(
+            string: "https://hacker-news.firebaseio.com/v0/topstories.json"
+        )!
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode([Int].self, from: data)
         
@@ -109,7 +121,9 @@ struct ContentView: App {
     }
     
     func fetchPostById(postId: Int) async throws -> StoryFetchResponse {
-        let url = URL(string: "https://hacker-news.firebaseio.com/v0/item/\(postId).json")!
+        let url = URL(
+            string: "https://hacker-news.firebaseio.com/v0/item/\(postId).json"
+        )!
         let (data, _) = try await URLSession.shared.data(from: url)
         
         return try JSONDecoder().decode(StoryFetchResponse.self, from: data)

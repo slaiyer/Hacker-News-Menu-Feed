@@ -7,40 +7,25 @@ struct PostsListing: View {
     var posts: [StoryFetchResponse]
     
     var body: some View {
-        ForEach(Array(posts.enumerated()), id: \.element.id) { index, post in
-            VStack(alignment: .leading) {
+        ForEach(
+            Array(posts.enumerated()),
+            id: \.element.id) { index, post in
+                VStack(alignment: .leading) {
+                    if post.url != nil {
+                        CustomLink(title: post.title!, link: post.url!)
+                    } else {
+                        Text(post.title!)
+                    }
                 
-                HStack {
-                    Image(.triangle)
-                        .resizable()
-                        .frame(width: 13, height: 13)
-                    
-                    CustomLink(title: post.title!, link: "https://news.ycombinator.com/item?id=\(post.id)")
+                    CustomLink(
+                        title: "􀌲 \(post.comments ?? 0)    􀾙 \(post.score)",
+                        link: "https://news.ycombinator.com/item?id=\(post.id)"
+                    )
+                    .padding(.leading)
+                    .font(.system(size: 10))
                 }
-                
-                if post.url != nil {
-                    CustomLink(title: "post external link", link: post.url!)
-                        .padding(.leading, 22)
-                        .padding(.bottom, 5)
-                        .font(.system(size: 11.5))
-                }
-                
-                HStack(spacing: 3) {
-                    
-                    Text("\(post.score) points by")
-                        .font(.system(size: 12))
-                        .padding(.leading, 22)
-                    
-                    CustomLink(title: post.by, link: "https://news.ycombinator.com/user?id=\(post.by)")
-                    
-                    Text("\(post.comments ?? 0) comments")
-                        .font(.system(size: 12))
-                }
-            }
-            .padding(.leading, 10)
-            .padding(.top, index == 0 ? 5 : 0)
             
-            Divider()
-        }
+                Divider()
+            }
     }
 }
