@@ -8,19 +8,19 @@ struct Actions: View {
   @Binding var showHeadline: Bool
 
   var body: some View {
-    HStack {
+      HStack(alignment: .top) {
       Button(
         action: onReload,
         label: {
           Image(systemName: "arrow.clockwise")
         })
 
-      Divider()
+      Spacer()
 
       Toggle("Headline", isOn: $showHeadline)
         .toggleStyle(.button)
 
-      Divider()
+      Spacer()
 
       Button(
         action: onQuit,
@@ -28,6 +28,5 @@ struct Actions: View {
           Image(systemName: "power")
         })
     }
-    .padding(.top)
   }
 }

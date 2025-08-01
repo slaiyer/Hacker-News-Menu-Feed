@@ -19,14 +19,13 @@ struct PostsListing: View {
         }
 
         CustomLink(
-          title: "􀌲 \(post.comments ?? 0)    􀾙 \(post.score)",
+          title: "􀌲 \(post.comments ?? 0)",
           link: "https://news.ycombinator.com/item?id=\(post.id)"
         )
+        .padding(.leading)
         .font(.system(size: 10))
         .foregroundColor(.secondary)
       }
-
-      Divider()
     }
   }
 }

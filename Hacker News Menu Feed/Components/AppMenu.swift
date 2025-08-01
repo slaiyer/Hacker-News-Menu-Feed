@@ -6,13 +6,8 @@ struct AppMenu: View {
 
   @Binding var posts: [StoryFetchResponse]
   @Binding var isFetching: Bool
-  @Binding var showHeadline: Bool
 
   var onReloadTapped: () -> Void
-
-  func quitAction() {
-    NSApplication.shared.terminate(nil)
-  }
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -20,13 +15,7 @@ struct AppMenu: View {
         Text("Reloading HN feed…")
       } else {
         PostsListing(posts: posts)
-        Actions(
-          onReload: onReloadTapped,
-          onQuit: quitAction,
-          showHeadline: $showHeadline
-        )
       }
     }
-    .padding()
   }
 }

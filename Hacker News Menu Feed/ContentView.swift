@@ -14,14 +14,24 @@ struct ContentView: App {
 
   var body: some Scene {
     MenuBarExtra {
-      ScrollView {
-        AppMenu(
-          posts: $posts,
-          isFetching: $isFetching,
-          showHeadline: $showHeadline,
-          onReloadTapped: reloadData
+      VStack(alignment: .leading) {
+        Actions(
+          onReload: reloadData,
+          onQuit: { NSApplication.shared.terminate(nil) },
+          showHeadline: $showHeadline
         )
+
+        Divider()
+
+        ScrollView {
+          AppMenu(
+            posts: $posts,
+            isFetching: $isFetching,
+            onReloadTapped: reloadData
+          )
+        }
       }
+      .padding()
       .frame(width: 500.0)
     } label: {
       if showHeadline {
