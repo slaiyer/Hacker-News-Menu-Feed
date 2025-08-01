@@ -2,8 +2,6 @@ import Foundation
 import SwiftUI
 
 struct CustomLink: View {
-  @Environment(\.dismiss) var dismiss
-
   var title: String
   var link: String
 
@@ -12,6 +10,8 @@ struct CustomLink: View {
       destination: URL(string: link)!,
       label: {
         Text(title)
+          .lineLimit(1)
+          .truncationMode(.middle)
       }
     )
     .onHover(perform: { hovering in
@@ -24,7 +24,6 @@ struct CustomLink: View {
     .environment(
       \.openURL,
       OpenURLAction { _ in
-        dismiss()
         return .systemAction
       })
   }

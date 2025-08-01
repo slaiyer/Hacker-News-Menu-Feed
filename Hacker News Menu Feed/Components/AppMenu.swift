@@ -3,7 +3,6 @@ import SwiftUI
 
 struct AppMenu: View {
   @Environment(\.openURL) var openURL
-  @Environment(\.dismiss) var dismiss
 
   @Binding var posts: [StoryFetchResponse]
   @Binding var isFetching: Bool

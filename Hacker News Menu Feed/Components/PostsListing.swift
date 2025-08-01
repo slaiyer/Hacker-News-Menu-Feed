@@ -2,8 +2,6 @@ import Foundation
 import SwiftUI
 
 struct PostsListing: View {
-  @Environment(\.dismiss) var dismiss
-
   var posts: [StoryFetchResponse]
 
   var body: some View {

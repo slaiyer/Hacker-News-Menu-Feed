@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct ContentView: App {
-  private static let numPosts = 10
+  private static let numPosts = 25
 
   @State private var isFetching = false
   @State private var showHeadline = LocalDataSource.getShowHeadline()
@@ -14,12 +14,14 @@ struct ContentView: App {
 
   var body: some Scene {
     MenuBarExtra {
-      AppMenu(
-        posts: $posts,
-        isFetching: $isFetching,
-        showHeadline: $showHeadline,
-        onReloadTapped: reloadData
-      )
+      ScrollView {
+        AppMenu(
+          posts: $posts,
+          isFetching: $isFetching,
+          showHeadline: $showHeadline,
+          onReloadTapped: reloadData
+        )
+      }
       .frame(width: 500.0)
     } label: {
       if showHeadline {
