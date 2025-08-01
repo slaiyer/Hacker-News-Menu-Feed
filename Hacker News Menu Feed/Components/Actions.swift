@@ -36,7 +36,6 @@ struct Actions: View {
       .focused($focusedField, equals: .quit)
     }
     .onAppear {
-      // Optional: start with first item focused
       focusedField = .reload
     }
   }
