@@ -8,7 +8,7 @@ struct ContentView: App {
   @State private var showHeadline = LocalDataSource.getShowHeadline()
   @State private var truncatedTitle: String = "Loading HN…"
   @State private var posts: [StoryFetchResponse] = []
-  @State private var reloadRate = 600.0
+  @State private var reloadRate = 3600.0
 
   var timer = Timer()
 
@@ -52,9 +52,8 @@ struct ContentView: App {
       perform: { _ in
         if !isFetching && posts.count > 0 {
           truncatedTitle = posts[0].title!
+          adjustTitleForMenuBar()
         }
-
-        adjustTitleForMenuBar()
       }
     )
     .onChange(
