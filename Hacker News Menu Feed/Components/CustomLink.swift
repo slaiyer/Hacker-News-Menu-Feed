@@ -21,10 +21,5 @@ struct CustomLink: View {
         NSCursor.pop()
       }
     })
-    .environment(
-      \.openURL,
-      OpenURLAction { _ in
-        return .systemAction
-      })
   }
 }
