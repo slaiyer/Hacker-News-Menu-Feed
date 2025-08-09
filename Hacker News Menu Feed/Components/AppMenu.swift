@@ -12,7 +12,7 @@ struct AppMenu: View {
   var body: some View {
     VStack(alignment: .leading) {
       if isFetching {
-        Text("Reloading HN feed…")
+        Text("Loading feed…")
       } else {
         PostsListing(posts: posts)
       }
