@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct ContentView: App {
-  private static let numPosts = 25
+  private static let numPosts = 1000
 
   @State private var isFetching = false
   @State private var showHeadline = LocalDataSource.getShowHeadline()
@@ -118,14 +118,24 @@ struct ContentView: App {
 
   func fetchFeed() async throws {
     let postsIds = try await fetchTopPostsIDs()
-    var newPosts: [StoryFetchResponse] = []
 
-    for postId in postsIds {
-      let post = try await fetchPostById(postId: postId)
-      newPosts.append(post)
+    posts = try await withThrowingTaskGroup(of: (Int, StoryFetchResponse).self) {
+      group -> [StoryFetchResponse] in
+      for (index, postId) in postsIds.enumerated() {
+        group.addTask {
+          let post = try await self.fetchPostById(postId: postId)
+          return (index, post)
+        }
+      }
+
+      var collectedPosts = [StoryFetchResponse?](repeating: nil, count: postsIds.count)
+
+      for try await (index, post) in group {
+        collectedPosts[index] = post
+      }
+
+      return collectedPosts.compactMap { $0 }
     }
-
-    posts = newPosts
   }
 
   func fetchTopPostsIDs() async throws -> [Int] {
