@@ -14,6 +14,7 @@ struct CustomLink: View {
           .truncationMode(.middle)
       }
     )
+    .help("\(title)\n\n\(link)")
     .onHover(perform: { hovering in
       if hovering {
         NSCursor.pointingHand.push()
