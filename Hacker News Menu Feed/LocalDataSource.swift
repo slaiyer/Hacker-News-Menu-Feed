@@ -9,7 +9,7 @@ class LocalDataSource {
   }
 
   public static func getShowHeadline() -> Bool {
-    var result: Bool = false
+    var result: Bool = true
 
     if let data = UserDefaults.standard.data(forKey: "ShowHeadline") {
       if let decoded = try? JSONDecoder().decode(Bool.self, from: data) {
