@@ -47,20 +47,15 @@ struct ContentView: App {
       }
     }
     .menuBarExtraStyle(.window)
-    .onChange(
-      of: isFetching,
-      perform: { _ in
-        if !isFetching && posts.count > 0 {
-          truncatedTitle = posts[0].title!
-          adjustTitleForMenuBar()
-        }
+    .onChange(of: isFetching) {
+      if !isFetching && posts.count > 0 {
+        truncatedTitle = posts[0].title!
+        adjustTitleForMenuBar()
       }
-    )
-    .onChange(
-      of: showHeadline,
-      perform: { _ in
-        LocalDataSource.saveShowHeadline(value: showHeadline)
-      })
+    }
+    .onChange(of: showHeadline) {
+      LocalDataSource.saveShowHeadline(value: showHeadline)
+    }
   }
 
   func startApp() {
