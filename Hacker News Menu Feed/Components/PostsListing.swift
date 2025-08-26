@@ -21,7 +21,7 @@ struct PostsListing: View {
         }
 
         Link(destination: URL(string: "https://news.ycombinator.com/item?id=\(post.id)")!) {
-          HStack(spacing: 8) {
+          HStack() {
             Text("􀆇 \(post.score)")
               .frame(minWidth: 50, alignment: .leading)
 
@@ -30,7 +30,6 @@ struct PostsListing: View {
           }
           .font(.system(size: 10))
           .foregroundColor(.secondary)
-          .padding(.leading)
         }
         .onHover(perform: { hovering in
           if hovering {
