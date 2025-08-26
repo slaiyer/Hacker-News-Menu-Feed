@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct ContentView: App {
-  private static let numPosts = 1000
+  private static let numPosts = 100
 
   @State private var isFetching = false
   @State private var showHeadline = LocalDataSource.getShowHeadline()
