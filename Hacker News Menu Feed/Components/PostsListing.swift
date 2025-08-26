@@ -9,22 +9,36 @@ struct PostsListing: View {
       Array(posts.enumerated()),
       id: \.element.id
     ) { _, post in
-      VStack(alignment: .leading) {
-        if post.url != nil {
-          CustomLink(title: post.title!, link: post.url!)
+      VStack(alignment: .leading, spacing: 4) {
+        if let url = post.url {
+          CustomLink(title: post.title ?? "", link: url)
             .foregroundColor(.primary)
+            .help("\(post.title ?? "")\n\n\(url)")
         } else {
-          Text(post.title!)
+          Text(post.title ?? "")
             .foregroundColor(.primary)
+            .help(post.title ?? "")
         }
 
-        CustomLink(
-          title: "􀌲 \(post.comments ?? 0)",
-          link: "https://news.ycombinator.com/item?id=\(post.id)"
-        )
-        .padding(.leading)
-        .font(.system(size: 10))
-        .foregroundColor(.secondary)
+        Link(destination: URL(string: "https://news.ycombinator.com/item?id=\(post.id)")!) {
+          HStack(spacing: 8) {
+            Text("􀆇 \(post.score)")
+              .frame(minWidth: 50, alignment: .leading)
+
+            Text("􀌲 \(post.comments ?? 0)")
+              .frame(minWidth: 50, alignment: .leading)
+          }
+          .font(.system(size: 10))
+          .foregroundColor(.secondary)
+          .padding(.leading)
+        }
+        .onHover(perform: { hovering in
+          if hovering {
+            NSCursor.pointingHand.push()
+          } else {
+            NSCursor.pop()
+          }
+        })
       }
     }
   }
