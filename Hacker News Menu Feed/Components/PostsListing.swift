@@ -21,8 +21,10 @@ struct PostsListing: View {
           Text("􀉣")
             .font(.system(size: 10))
             .foregroundColor(.secondary)
+            .frame(maxHeight: .infinity)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.link)
+        .contentShape(.rect)
         .onHover { hovering in
           if hovering {
             NSCursor.pointingHand.push()
